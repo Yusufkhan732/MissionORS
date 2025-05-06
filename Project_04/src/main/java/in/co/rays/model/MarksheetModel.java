@@ -3,6 +3,8 @@ package in.co.rays.model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import in.co.rays.bean.CollegeBean;
 import in.co.rays.bean.MarksheetBean;
@@ -115,34 +117,136 @@ public class MarksheetModel {
 		}
 	}
 
-	public MarksheetBean findByName(String name) throws Exception {
+	public MarksheetBean findByPk(long id) throws Exception {
 
 		Connection conn = JDBCDataSource.getConnection();
 
-		PreparedStatement pstmt = conn.prepareStatement("select * from st_marksheet where name = ?");
+		PreparedStatement pstmt = conn.prepareStatement("select * from st_marksheet where id = ?");
 
-		pstmt.setString(1, name);
+		pstmt.setLong(1, id);
 
 		ResultSet rs = pstmt.executeQuery();
 
 		MarksheetBean bean = null;
 
-		if(rs.next()) {
+		while (rs.next()) {
 			bean = new MarksheetBean();
-			pstmt.setLong(1, bean.getId());
-			pstmt.setString(2, bean.getRollNo());
-			pstmt.setLong(3, bean.getStudentId());
-			pstmt.setString(4, bean.getName());
-			pstmt.setInt(5, bean.getPhysics());
-			pstmt.setInt(6, bean.getChemistry());
-			pstmt.setInt(7, bean.getMaths());
-			pstmt.setString(8, bean.getCreatedBy());
-			pstmt.setString(9, bean.getModifiedBy());
-			pstmt.setTimestamp(10, bean.getCreatedDatetime());
-			pstmt.setTimestamp(11, bean.getModifiedDatetime());
+			bean.setId(rs.getLong(1));
+			bean.setRollNo(rs.getString(2));
+			bean.setStudentId(rs.getLong(3));
+			bean.setName(rs.getString(4));
+			bean.setPhysics(rs.getInt(5));
+			bean.setChemistry(rs.getInt(6));
+			bean.setMaths(rs.getInt(7));
+			bean.setCreatedBy(rs.getString(8));
+			bean.setModifiedBy(rs.getString(9));
+			bean.setCreatedDatetime(rs.getTimestamp(10));
+			bean.setModifiedDatetime(rs.getTimestamp(11));
 
 		}
-		JDBCDataSource.trnRollback(conn);
+		JDBCDataSource.closeConnection(conn);
 		return bean;
 	}
+
+	public MarksheetBean findStudenIDt(long id) throws Exception {
+
+		Connection conn = JDBCDataSource.getConnection();
+
+		PreparedStatement pstmt = conn.prepareStatement("select * from st_marksheet where student_id = ?");
+
+		pstmt.setLong(1, id);
+
+		ResultSet rs = pstmt.executeQuery();
+
+		MarksheetBean bean = null;
+
+		while (rs.next()) {
+			bean = new MarksheetBean();
+			bean.setId(rs.getLong(1));
+			bean.setRollNo(rs.getString(2));
+			bean.setStudentId(rs.getLong(3));
+			bean.setName(rs.getString(4));
+			bean.setPhysics(rs.getInt(5));
+			bean.setChemistry(rs.getInt(6));
+			bean.setMaths(rs.getInt(7));
+			bean.setCreatedBy(rs.getString(8));
+			bean.setModifiedBy(rs.getString(9));
+			bean.setCreatedDatetime(rs.getTimestamp(10));
+			bean.setModifiedDatetime(rs.getTimestamp(11));
+
+		}
+		JDBCDataSource.closeConnection(conn);
+		return bean;
+
+	}
+
+	public MarksheetBean rollno(String rollno) throws Exception {
+
+		Connection conn = JDBCDataSource.getConnection();
+		PreparedStatement pstmt = conn.prepareStatement("select * from st_marksheet where roll_no = ?");
+
+		pstmt.setString(1, rollno);
+
+		ResultSet rs = pstmt.executeQuery();
+
+		MarksheetBean bean = null;
+
+		while (rs.next()) {
+			bean = new MarksheetBean();
+			bean.setId(rs.getLong(1));
+			bean.setRollNo(rs.getString(2));
+			bean.setStudentId(rs.getLong(3));
+			bean.setName(rs.getString(4));
+			bean.setPhysics(rs.getInt(5));
+			bean.setChemistry(rs.getInt(6));
+			bean.setMaths(rs.getInt(7));
+			bean.setCreatedBy(rs.getString(8));
+			bean.setModifiedBy(rs.getString(9));
+			bean.setCreatedDatetime(rs.getTimestamp(10));
+			bean.setModifiedDatetime(rs.getTimestamp(11));
+		}
+		JDBCDataSource.closeConnection(conn);
+		return bean;
+
+	}
+
+	public List search(MarksheetBean bean) throws Exception {
+
+		Connection conn = JDBCDataSource.getConnection();
+
+		StringBuffer sql = new StringBuffer("select * from st_marksheet where 1=1");
+
+		if (bean != null) {
+			if (bean.getName() != null && bean.getName().length() > 0) {
+
+				sql.append("and name like '" + bean.getName() + "%");
+			}
+		}
+		System.out.println("sql==>" + sql.toString());
+
+		PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+
+		ResultSet rs = pstmt.executeQuery();
+		List list = new ArrayList();
+
+		while (rs.next()) {
+			bean = new MarksheetBean();
+			bean.setId(rs.getLong(1));
+			bean.setRollNo(rs.getString(2));
+			bean.setStudentId(rs.getLong(3));
+			bean.setName(rs.getString(4));
+			bean.setPhysics(rs.getInt(5));
+			bean.setChemistry(rs.getInt(6));
+			bean.setMaths(rs.getInt(7));
+			bean.setCreatedBy(rs.getString(8));
+			bean.setModifiedBy(rs.getString(9));
+			bean.setCreatedDatetime(rs.getTimestamp(10));
+			bean.setModifiedDatetime(rs.getTimestamp(11));
+			list.add(bean);
+		}
+		JDBCDataSource.closeConnection(conn);
+		return list;
+
+	}
+
 }

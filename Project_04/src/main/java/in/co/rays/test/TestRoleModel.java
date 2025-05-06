@@ -18,9 +18,9 @@ public class TestRoleModel {
 		// testAdd();
 		// testUpdate();
 		// testdelete();
-		// testfindBypk();
+		//testfindBypk();
 		// testfindByName();
-		testsearch();
+		// testsearch();
 	}
 
 	public static void testnextPk() {
@@ -73,8 +73,12 @@ public class TestRoleModel {
 
 	public static void testfindBypk() throws Exception {
 
+		RoleBean bean = new RoleBean();
+
 		RoleModel model = new RoleModel();
-		RoleBean bean = model.findBypk(1);
+
+		bean = model.findBypk(1);
+
 		if (bean != null) {
 			System.out.println(bean.getId());
 			System.out.print("\t" + bean.getName());
@@ -91,9 +95,11 @@ public class TestRoleModel {
 
 	public static void testfindByName() throws Exception {
 
+		RoleBean bean = new RoleBean();
+
 		RoleModel model = new RoleModel();
 
-		RoleBean bean = model.findByName("admin");
+		bean = model.findByName("kiosk");
 
 		if (bean != null) {
 			System.out.print(bean.getId());
@@ -111,9 +117,11 @@ public class TestRoleModel {
 
 	public static void testsearch() throws Exception {
 
-		RoleBean bean = new RoleBean();
-		
 		RoleModel model = new RoleModel();
+
+		RoleBean bean = new RoleBean();
+
+		bean.setModifiedBy("root");
 
 		List list = model.search(bean);
 
@@ -121,14 +129,14 @@ public class TestRoleModel {
 
 		while (it.hasNext()) {
 			bean = (RoleBean) it.next();
-			System.out.print(bean.getId());
-			System.out.print("\t" + bean.getName());
-			System.out.print("\t" + bean.getDescription());
-			System.out.print("\t" + bean.getCreatedBy());
+//			System.out.print(bean.getId());
+//			System.out.print("\t" + bean.getName());
+//			System.out.print("\t" + bean.getDescription());
+//			System.out.print("\t" + bean.getCreatedBy());
 			System.out.print("\t" + bean.getModifiedBy());
-			System.out.print("\t" + bean.getCreatedDatetime());
-			System.out.println("\t" + bean.getModifiedDatetime());
-
+//			System.out.print("\t" + bean.getCreatedDatetime());
+//			System.out.println("\t" + bean.getModifiedDatetime());
+//
 		}
 	}
 }

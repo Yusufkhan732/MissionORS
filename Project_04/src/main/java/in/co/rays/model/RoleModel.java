@@ -36,10 +36,15 @@ public class RoleModel {
 	public void add(RoleBean bean) throws Exception {
 
 		Connection conn = null;
+
+		RoleBean existBean = findByName(bean.getName());
 		try {
 			int pk = nextPk();
+
 			conn = JDBCDataSource.getConnection();
+
 			conn.setAutoCommit(false);
+
 			PreparedStatement pstmt = conn.prepareStatement("insert into st_role values(?,?,?,?,?,?,?)");
 
 			pstmt.setInt(1, pk);
@@ -51,8 +56,11 @@ public class RoleModel {
 			pstmt.setTimestamp(7, bean.getModifiedDatetime());
 
 			int i = pstmt.executeUpdate();
+
 			conn.commit();
+
 			JDBCDataSource.closeConnection(conn);
+
 			System.out.println("Data inserted:" + i);
 
 		} catch (Exception e) {
@@ -83,12 +91,15 @@ public class RoleModel {
 			pstmt.setLong(7, bean.getId());
 
 			int i = pstmt.executeUpdate();
+
 			conn.commit();
 
 			JDBCDataSource.closeConnection(conn);
+
 			System.out.println("Data Update");
+
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+
 			JDBCDataSource.trnRollback(conn);
 
 		}
@@ -97,16 +108,21 @@ public class RoleModel {
 	public void delete(long id) throws Exception {
 
 		Connection conn = null;
+
 		try {
 
 			conn = JDBCDataSource.getConnection();
+
 			conn.setAutoCommit(false);
+
 			PreparedStatement pstmt = conn.prepareStatement("delete from st_role where id = ?");
 
 			pstmt.setLong(1, id);
 
 			int i = pstmt.executeUpdate();
+
 			conn.commit();
+
 			JDBCDataSource.closeConnection(conn);
 
 			System.out.println("Data deleted" + i);
@@ -118,9 +134,13 @@ public class RoleModel {
 	}
 
 	public RoleBean findBypk(long id) throws Exception {
+
 		Connection conn = JDBCDataSource.getConnection();
+
 		PreparedStatement pstmt = conn.prepareStatement("select * from st_role where id = ?");
+
 		pstmt.setLong(1, id);
+
 		ResultSet rs = pstmt.executeQuery();
 
 		RoleBean bean = null;
@@ -166,18 +186,27 @@ public class RoleModel {
 	}
 
 	public List search(RoleBean bean) throws Exception {
+
 		Connection conn = JDBCDataSource.getConnection();
+
 		StringBuffer sql = new StringBuffer("select * from st_role where 1=1");
 
 		if (bean != null) {
 			if (bean.getName() != null && bean.getName().length() > 0) {
 				sql.append(" and name like '" + bean.getName() + "%'");
 			}
+			if (bean.getModifiedBy() != null && bean.getModifiedBy().length() > 0) {
+				sql.append(" and modified_by like '" + bean.getModifiedBy() + "%'");
+			}
 		}
 		System.out.println("sql==>>" + sql.toString());
+
 		PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+
 		ResultSet rs = pstmt.executeQuery();
+
 		List list = new ArrayList();
+
 		while (rs.next()) {
 			bean = new RoleBean();
 			bean.setId(rs.getLong(1));

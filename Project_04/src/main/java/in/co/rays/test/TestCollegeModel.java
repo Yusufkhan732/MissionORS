@@ -5,40 +5,41 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import in.co.rays.Exception.DatabaseException;
 import in.co.rays.bean.CollegeBean;
 import in.co.rays.model.CollegeModel;
 
 public class TestCollegeModel {
 
 	public static void main(String[] args) throws Exception {
-		// testcollege();
-		// testAdd();
+		testcollege();
+	// testAdd();
 		// testupdate();
-		// testdelete();
+		 testdelete();
 		// testfindByPk();
 		// testfindByName();
-		testsearch();
+		// testsearch();
 	}
 
-	public static void testcollege() {
+	public static void testcollege() throws DatabaseException {
 
 		CollegeModel model = new CollegeModel();
-
-		int i = model.nextPk();
-		System.out.println("NextPk:" + i);
-
+		
+		int i = model.nextPK();
+		
+		System.out.println("nextPk" + i);
 	}
 
 	public static void testAdd() throws Exception {
 
 		CollegeBean bean = new CollegeBean();
 
-		bean.setId(3);
-		bean.setName("Rays");
-		bean.setAddress("Madhumilan");
+		bean.setId(12);
+		bean.setName("bhopal University");
+		bean.setAddress("hamidya road");
 		bean.setState("MadhyaPradesh");
-		bean.setCity("Indore");
-		bean.setPhoneNo("8899778995");
+		bean.setCity("bhopal");
+		bean.setPhoneNo("9199778995");
 		bean.setCreatedBy("root");
 		bean.setModifiedBy("root");
 		bean.setCreatedDatetime(new Timestamp(new Date().getTime()));
@@ -52,12 +53,12 @@ public class TestCollegeModel {
 	public static void testupdate() throws Exception {
 
 		CollegeBean bean = new CollegeBean();
-		bean.setId(3);
-		bean.setName("Rays Technologies");
+		bean.setId(12);
+		bean.setName("kl");
 		bean.setAddress("Madhumilan");
 		bean.setState("MadhyaPradesh");
 		bean.setCity("Indore");
-		bean.setPhoneNo("8899778995");
+		bean.setPhoneNo("999778995");
 		bean.setCreatedBy("root");
 		bean.setModifiedBy("root");
 		bean.setCreatedDatetime(new Timestamp(new Date().getTime()));
@@ -70,13 +71,13 @@ public class TestCollegeModel {
 
 	public static void testdelete() throws Exception {
 		CollegeModel model = new CollegeModel();
-		model.delete(4);
+		model.delete(12);
 
 	}
 
 	public static void testfindByPk() throws Exception {
 		CollegeModel model = new CollegeModel();
-		CollegeBean bean = model.findByPk(2);
+		CollegeBean bean = model.findByPK(4);
 
 		if (bean != null) {
 			System.out.print(bean.getId());
@@ -98,7 +99,7 @@ public class TestCollegeModel {
 	public static void testfindByName() throws Exception {
 
 		CollegeModel model = new CollegeModel();
-		CollegeBean bean = model.findByName("ABC College");
+		CollegeBean bean = model.findByName("Advance");
 
 		if (bean != null) {
 			System.out.print(bean.getId());
@@ -137,7 +138,7 @@ public class TestCollegeModel {
 			System.out.print("\t" + bean.getCreatedBy());
 			System.out.print("\t" + bean.getModifiedBy());
 			System.out.print("\t" + bean.getCreatedDatetime());
-			System.out.println(bean.getModifiedDatetime());
+			System.out.println("\t" + bean.getModifiedDatetime());
 
 		}
 	}
