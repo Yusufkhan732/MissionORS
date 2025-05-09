@@ -17,7 +17,7 @@ public class TestCourseModel {
 		// testNextPk();
 		// testFindByPK();
 		// testadd();
-		testUpdate();
+		//testUpdate();
 		// testSearch();
 		// testFindByName();
 		// testDelete();
@@ -126,7 +126,8 @@ public class TestCourseModel {
 	private static void testDelete() throws Exception {
 
 		CourseModel model = new CourseModel();
-		// model.Delete(4);
+		CourseBean bean = new CourseBean();
+		//model.Delete(bean.getId());
 	}
 
 }

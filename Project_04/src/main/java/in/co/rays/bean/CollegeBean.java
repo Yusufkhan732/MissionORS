@@ -2,7 +2,7 @@ package in.co.rays.bean;
 
 import java.sql.Timestamp;
 
-public class CollegeBean extends BaseBean{
+public class CollegeBean extends BaseBean {
 
 	private long id;
 	private String name;
@@ -93,6 +93,18 @@ public class CollegeBean extends BaseBean{
 
 	public void setModifiedDatetime(Timestamp modifiedDatetime) {
 		this.modifiedDatetime = modifiedDatetime;
+	}
+
+	@Override
+	public String getkey() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getValue() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

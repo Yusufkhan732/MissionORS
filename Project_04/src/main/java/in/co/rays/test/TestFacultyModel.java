@@ -87,7 +87,7 @@ public class TestFacultyModel {
 
 		FacultyModel model = new FacultyModel();
 
-		FacultyBean bean = model.findByPK(4);
+		FacultyBean bean = model.findByPK(700001);
 
 		if (bean != null) {
 			System.out.print("\t" + bean.getId());

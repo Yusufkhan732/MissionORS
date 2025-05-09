@@ -50,7 +50,9 @@ public class UserModel {
 		int pk = 0;
 
 		UserBean existBean = findByLogin(bean.getLogin());
+
 		if (existBean != null) {
+
 			throw new DuplicateRecordException("login already sxist");
 
 		}
@@ -61,22 +63,22 @@ public class UserModel {
 
 			conn.setAutoCommit(false);
 
-			PreparedStatement pstmt = conn.prepareStatement("insert into st_user values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+			PreparedStatement pstmt = conn.prepareStatement("insert into st_user values(?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
 			pstmt.setLong(1, bean.getId());
 			pstmt.setString(2, bean.getFirstName());
 			pstmt.setString(3, bean.getLastName());
 			pstmt.setString(4, bean.getLogin());
 			pstmt.setString(5, bean.getPassword());
-			pstmt.setString(6, bean.getConfirmpassword());
-			pstmt.setDate(7, new java.sql.Date(bean.getDob().getTime()));
-			pstmt.setString(8, bean.getMobileNo());
-			pstmt.setLong(9, bean.getRoleId());
-			pstmt.setString(10, bean.getGender());
-			pstmt.setString(11, bean.getCreatedBy());
-			pstmt.setString(12, bean.getModifiedBy());
-			pstmt.setTimestamp(13, bean.getCreatedDatetime());
-			pstmt.setTimestamp(14, bean.getModifiedDatetime());
+			// pstmt.setString(6, bean.getConfirmpassword());
+			pstmt.setDate(6, new java.sql.Date(bean.getDob().getTime()));
+			pstmt.setString(7, bean.getMobileNo());
+			pstmt.setLong(8, bean.getRoleId());
+			pstmt.setString(9, bean.getGender());
+			pstmt.setString(10, bean.getCreatedBy());
+			pstmt.setString(11, bean.getModifiedBy());
+			pstmt.setTimestamp(12, bean.getCreatedDatetime());
+			pstmt.setTimestamp(13, bean.getModifiedDatetime());
 
 			int i = pstmt.executeUpdate();
 			conn.commit();
@@ -118,22 +120,22 @@ public class UserModel {
 			conn.setAutoCommit(false);
 
 			PreparedStatement pstmt = conn.prepareStatement(
-					"update st_user set first_name = ?,last_name = ?,login = ?,password = ?,confirm_password = ?,dob = ?,mobile_no = ?,role_id = ?,gender = ?,created_by = ?,modified_by = ?,created_datetime = ?,modified_datetime = ? where id = ?");
+					"update st_user set first_name = ?,last_name = ?,login = ?,password = ?,dob = ?,mobile_no = ?,role_id = ?,gender = ?,created_by = ?,modified_by = ?,created_datetime = ?,modified_datetime = ? where id = ?");
 
 			pstmt.setString(1, bean.getFirstName());
 			pstmt.setString(2, bean.getLastName());
 			pstmt.setString(3, bean.getLogin());
 			pstmt.setString(4, bean.getPassword());
-			pstmt.setString(5, bean.getConfirmpassword());
-			pstmt.setDate(6, new java.sql.Date(bean.getDob().getTime()));
-			pstmt.setString(7, bean.getMobileNo());
-			pstmt.setLong(8, bean.getRoleId());
-			pstmt.setString(9, bean.getGender());
-			pstmt.setString(10, bean.getCreatedBy());
-			pstmt.setString(11, bean.getModifiedBy());
-			pstmt.setTimestamp(12, bean.getCreatedDatetime());
-			pstmt.setTimestamp(13, bean.getModifiedDatetime());
-			pstmt.setLong(14, bean.getId());
+			// pstmt.setString(5, bean.getConfirmpassword());
+			pstmt.setDate(5, new java.sql.Date(bean.getDob().getTime()));
+			pstmt.setString(6, bean.getMobileNo());
+			pstmt.setLong(7, bean.getRoleId());
+			pstmt.setString(8, bean.getGender());
+			pstmt.setString(9, bean.getCreatedBy());
+			pstmt.setString(10, bean.getModifiedBy());
+			pstmt.setTimestamp(11, bean.getCreatedDatetime());
+			pstmt.setTimestamp(12, bean.getModifiedDatetime());
+			pstmt.setLong(13, bean.getId());
 
 			int i = pstmt.executeUpdate();
 
@@ -216,14 +218,15 @@ public class UserModel {
 				bean.setLastName(rs.getString(3));
 				bean.setLogin(rs.getString(4));
 				bean.setPassword(rs.getString(5));
-				bean.setConfirmpassword(rs.getString(6));
-				bean.setDob(rs.getDate(7));
-				bean.setRoleId(rs.getLong(8));
-				bean.setGender(rs.getString(10));
-				bean.setCreatedBy(rs.getString(11));
-				bean.setModifiedBy(rs.getString(12));
-				bean.setCreatedDatetime(rs.getTimestamp(13));
-				bean.setModifiedDatetime(rs.getTimestamp(14));
+				bean.setMobileNo(rs.getString("9187654321"));
+				// bean.setConfirmpassword(rs.getString(6));
+				bean.setDob(rs.getDate(6));
+				bean.setRoleId(rs.getLong(7));
+				bean.setGender(rs.getString(8));
+				bean.setCreatedBy(rs.getString(9));
+				bean.setModifiedBy(rs.getString(10));
+				bean.setCreatedDatetime(rs.getTimestamp(11));
+				bean.setModifiedDatetime(rs.getTimestamp(12));
 			}
 		} catch (Exception e) {
 
@@ -292,15 +295,15 @@ public class UserModel {
 				bean.setLastName(rs.getString(3));
 				bean.setLogin(rs.getString(4));
 				bean.setPassword(rs.getString(5));
-				bean.setConfirmpassword(rs.getString(6));
-				bean.setDob(rs.getDate(7));
-				bean.setMobileNo(rs.getString(8));
-				bean.setRoleId(rs.getLong(9));
-				bean.setGender(rs.getString(10));
-				bean.setCreatedBy(rs.getString(12));
-				bean.setModifiedBy(rs.getString(12));
-				bean.setCreatedDatetime(rs.getTimestamp(13));
-				bean.setModifiedDatetime(rs.getTimestamp(14));
+				// bean.setConfirmpassword(rs.getString(6));
+				bean.setDob(rs.getDate(6));
+				bean.setMobileNo(rs.getString(7));
+				bean.setRoleId(rs.getLong(8));
+				bean.setGender(rs.getString(9));
+				bean.setCreatedBy(rs.getString(10));
+				bean.setModifiedBy(rs.getString(11));
+				bean.setCreatedDatetime(rs.getTimestamp(12));
+				bean.setModifiedDatetime(rs.getTimestamp(13));
 			}
 		} catch (Exception e) {
 

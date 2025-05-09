@@ -16,11 +16,11 @@ public class TestStudentModel {
 	public static void main(String[] args) throws Exception {
 		// testsearch();
 		// testPk();
-		// testAdd();
+		testAdd();
 		// testupdate();
 		// testdelete();
 		// testByPk();
-		// testByName();
+		// testByEmail();
 
 	}
 
@@ -37,15 +37,14 @@ public class TestStudentModel {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 		StudentBean bean = new StudentBean();
-		bean.setId(21);
-		bean.setFirstName("Nikita");
-		bean.setLastName("Meena");
+		bean.setFirstName("Nusad");
+		bean.setLastName("khan");
 		bean.setDob(sdf.parse("2000-11-11 00:00:00"));
-		bean.setGender("female");
+		bean.setGender("male");
 		bean.setMobileNo("9988787689");
-		bean.setEmail("nikita@gmail.com");
-		bean.setCollegeId(104);
-		bean.setCollegeName("RNTU University");
+		bean.setEmail("nuasd@gmail.com");
+		// bean.setCollegeName("Rays");
+		bean.setCollegeId(4);
 		bean.setCreatedBy("admin");
 		bean.setModifiedBy("admin");
 		bean.setCreatedDatetime(new Timestamp(new Date().getTime()));
@@ -61,15 +60,16 @@ public class TestStudentModel {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 		StudentBean bean = new StudentBean();
-		bean.setId(22);
+
+		bean.setId(131);
 		bean.setFirstName("Neha");
-		bean.setLastName("Meena");
+		bean.setLastName("rathor");
 		bean.setDob(sdf.parse("2002-11-11"));
 		bean.setGender("female");
 		bean.setMobileNo("9988787689");
 		bean.setEmail("neha@gmail.com");
-		bean.setCollegeId(104);
-		bean.setCollegeName("RNT University");
+		bean.setCollegeName("Rays");
+		bean.setCollegeId(10);
 		bean.setCreatedBy("admin");
 		bean.setModifiedBy("admin");
 		bean.setCreatedDatetime(new Timestamp(new Date().getTime()));
@@ -83,9 +83,9 @@ public class TestStudentModel {
 	public static void testByPk() throws Exception {
 
 		StudentModel model = new StudentModel();
-		StudentBean bean = model.findByPK(20);
+		StudentBean bean = model.findByPK(110);
 		if (bean != null) {
-			System.out.print("\t" + bean.getId());
+			System.out.print(bean.getId());
 			System.out.print("\t" + bean.getFirstName());
 			System.out.print("\t" + bean.getLastName());
 			System.out.print("\t" + bean.getDob());
@@ -105,12 +105,12 @@ public class TestStudentModel {
 
 	}
 
-	public static void testByName() throws Exception {
+	public static void testByEmail() throws Exception {
 
 		StudentModel model = new StudentModel();
-		StudentBean bean = model.findByEmailId("");
+		StudentBean bean = model.findByEmailId("ishita@gmail.com");
 		if (bean != null) {
-			System.out.print("\t" + bean.getId());
+			System.out.print(bean.getId());
 			System.out.print("\t" + bean.getFirstName());
 			System.out.print("\t" + bean.getLastName());
 			System.out.print("\t" + bean.getDob());
@@ -133,7 +133,9 @@ public class TestStudentModel {
 	public static void testdelete() throws Exception {
 
 		StudentBean bean = new StudentBean();
-		bean.setId(1);
+		bean.setId(132);
+		StudentModel model = new StudentModel();
+		model.delete(bean);
 	}
 
 	public static void testsearch() throws Exception {
@@ -160,7 +162,7 @@ public class TestStudentModel {
 			System.out.print("\t" + bean.getCreatedBy());
 			System.out.print("\t" + bean.getModifiedBy());
 			System.out.print("\t" + bean.getCreatedDatetime());
-			System.out.println(bean.getModifiedDatetime());
+			System.out.println("\t" + bean.getModifiedDatetime());
 
 		}
 	}

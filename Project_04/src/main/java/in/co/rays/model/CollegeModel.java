@@ -22,11 +22,13 @@ public class CollegeModel {
 	 */
 
 	public Integer nextPK() throws DatabaseException {
-		
+
 		Connection conn = null;
-		
+
 		int pk = 0;
+
 		try {
+
 			conn = JDBCDataSource.getConnection();
 
 			PreparedStatement pstmt = conn.prepareStatement("SELECT MAX(ID) FROM ST_COLLEGE");
@@ -41,9 +43,9 @@ public class CollegeModel {
 			rs.close();
 
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
-			
+
 			System.out.println(e.getMessage());
 
 			throw new DatabaseException("Exception Exception getting pk");
@@ -76,7 +78,9 @@ public class CollegeModel {
 			throw new DuplicateRecordException("College Name alredy exists");
 
 		}
+
 		try {
+
 			conn = JDBCDataSource.getConnection();
 
 			pk = nextPK();
@@ -421,8 +425,11 @@ public class CollegeModel {
 
 		try {
 			conn = JDBCDataSource.getConnection();
+
 			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+
 			ResultSet rs = pstmt.executeQuery();
+
 			while (rs.next()) {
 				bean = new CollegeBean();
 				bean.setId(rs.getLong(1));
@@ -449,5 +456,4 @@ public class CollegeModel {
 		return list;
 
 	}
-
 }

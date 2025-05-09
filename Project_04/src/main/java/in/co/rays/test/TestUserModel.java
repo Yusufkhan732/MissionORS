@@ -7,34 +7,43 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import in.co.rays.Exception.DatabaseException;
 import in.co.rays.bean.UserBean;
 import in.co.rays.model.UserModel;
 
 public class TestUserModel {
 
 	public static void main(String[] args) throws Exception {
+		//nextPK();
 		// testsearch();
 		// testAdd();
-		 testUpdate();
+		// testUpdate();
 		// testdelete();
-		// testfindBypk();
+		 testfindBypk();
 		// testfindByLogin();
 		//testauthenticate();
+	}
+
+	public static void nextPK() throws DatabaseException {
+
+		UserModel model = new UserModel();
+		int pk = model.nextPk();
+		System.out.println("nextPK" + pk);
 	}
 
 	public static void testAdd() throws Exception {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		UserBean bean = new UserBean();
 
-		bean.setId(21);
+		//bean.setId(5312);
 		bean.setFirstName("Akash");
 		bean.setLastName("rathor");
 		bean.setLogin("akash@gmail.com");
 		bean.setPassword("aksah123");
-		bean.setConfirmpassword("akash123");
+		//bean.setConfirmpassword("akash123");
 		bean.setDob(sdf.parse("2000-07-07"));
 		bean.setMobileNo("9897798789");
-		bean.setRoleId(2);
+		bean.setRoleId(44444);
 		bean.setGender("male");
 		bean.setCreatedBy("root");
 		bean.setModifiedBy("root");
@@ -49,15 +58,15 @@ public class TestUserModel {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 		UserBean bean = new UserBean();
-		bean.setId(4);
+		bean.setId(5312);
 		bean.setFirstName("Akash");
-		bean.setLastName("rathor");
-		bean.setLogin("karan.kapoor@example.com");
+		bean.setLastName("mevada");
+		bean.setLogin("akash@example.com");
 		bean.setPassword("pass123");
 		bean.setConfirmpassword("akash123");
 		bean.setDob(sdf.parse("2000-07-07"));
 		bean.setMobileNo("9897798789");
-		bean.setRoleId(2);
+		bean.setRoleId(44444);
 		bean.setGender("male");
 		bean.setCreatedBy("admin");
 		bean.setModifiedBy("admin");
@@ -70,21 +79,21 @@ public class TestUserModel {
 
 	public static void testdelete() throws Exception {
 		UserModel model = new UserModel();
-		model.delete(21);
+		model.delete(5312);
 	}
 
 	public static void testfindBypk() throws Exception {
 
 		UserModel model = new UserModel();
-		UserBean bean = model.findBypk(20);
+		UserBean bean = model.findBypk(5312);
 
 		if (bean != null) {
-			System.out.print("\t" + bean.getId());
+			System.out.print(bean.getId());
 			System.out.print("\t" + bean.getFirstName());
 			System.out.print("\t" + bean.getLastName());
 			System.out.print("\t" + bean.getLogin());
 			System.out.print("\t" + bean.getPassword());
-			System.out.print("\t" + bean.getConfirmpassword());
+			//System.out.print("\t" + bean.getConfirmpassword());
 			System.out.print("\t" + bean.getDob());
 			System.out.print("\t" + bean.getRoleId());
 			System.out.print("\t" + bean.getMobileNo());
@@ -124,10 +133,10 @@ public class TestUserModel {
 
 		UserModel model = new UserModel();
 
-		UserBean bean = model.authenticate("karan.kapoor@example.com", "pass123");
+		UserBean bean = model.authenticate("aastik@gmail.com", "Aastik@123");
 
 		if (bean != null) {
-			System.out.print("\t" + bean.getId());
+			System.out.print(bean.getId());
 			System.out.print("\t" + bean.getFirstName());
 			System.out.print("\t" + bean.getLastName());
 			System.out.print("\t" + bean.getLogin());

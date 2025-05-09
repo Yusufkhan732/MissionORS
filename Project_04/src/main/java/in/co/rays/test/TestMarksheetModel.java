@@ -17,9 +17,9 @@ public class TestMarksheetModel {
 		// testUpdate();
 		// testDelete();
 		// testfindBypk();
-		testfindStudenID();
-		// testRollno();
-		// testsearch();
+		//testfindStudenID();
+		 //testRollno();
+		 testsearch();
 	}
 
 	public static void testmarksheet() {
@@ -99,7 +99,7 @@ public class TestMarksheetModel {
 	public static void testfindStudenID() throws Exception {
 
 		MarksheetModel model = new MarksheetModel();
-		MarksheetBean bean = model.findStudenIDt(202);
+		MarksheetBean bean = model.findStudenIDt(110);
 		if (bean != null) {
 			System.out.print(bean.getId());
 			System.out.print("\t" + bean.getRollNo());
@@ -118,7 +118,7 @@ public class TestMarksheetModel {
 
 	public static void testRollno() throws Exception {
 		MarksheetModel model = new MarksheetModel();
-		MarksheetBean bean = model.rollno("A111");
+		MarksheetBean bean = model.rollno("2012");
 		if (bean != null) {
 			System.out.print(bean.getId());
 			System.out.print("\t" + bean.getRollNo());

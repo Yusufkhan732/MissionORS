@@ -20,7 +20,7 @@ public class SubjectModel {
 	 * @throws DatabaseException
 	 */
 
-	private Integer nextPK() throws DatabaseException {
+	public Integer nextPK() throws DatabaseException {
 		Connection conn = null;
 		int pk = 0;
 		try {
@@ -150,7 +150,7 @@ public class SubjectModel {
 			conn = JDBCDataSource.getConnection();
 			conn.setAutoCommit(false);
 			PreparedStatement pstmt = conn.prepareStatement(
-					"UPDATE ST_SUBJECT SET SUBJECT_NAME=?,DESCRIPTION=?,COURSE_ID=?,COURSE_NAME=?,CREATED_BY=?,MODIFIED_BY=?,CREATED_DATETIME=?,MODIFIED_DATETIME=? WHERE ID=?");
+					"UPDATE ST_SUBJECT SET NAME=?,DESCRIPTION=?,COURSE_ID=?,COURSE_NAME=?,CREATED_BY=?,MODIFIED_BY=?,CREATED_DATETIME=?,MODIFIED_DATETIME=? WHERE ID=?");
 
 			pstmt.setString(1, bean.getSubjectName());
 			pstmt.setString(2, bean.getDescription());
@@ -186,7 +186,8 @@ public class SubjectModel {
 	 * @throws DatabaseException
 	 */
 	public SubjectBean findByName(String name) throws ApplicationException {
-		StringBuffer sql = new StringBuffer("SELECT * FROM ST_SUBJECT WHERE SUBJECT_NAME=?");
+		
+		StringBuffer sql = new StringBuffer("SELECT * FROM ST_SUBJECT WHERE NAME=?");
 		SubjectBean bean = null;
 		Connection conn = null;
 
@@ -194,16 +195,19 @@ public class SubjectModel {
 			conn = JDBCDataSource.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setString(1, name);
-			System.out.println(name + "jhdsfuhf");
+
+			 System.out.println(name + "jhdsfuhf");
+
 			ResultSet rs = pstmt.executeQuery();
+
 			System.out.println("query working");
 			while (rs.next()) {
 				bean = new SubjectBean();
 				bean.setId(1);
 				bean.setSubjectName(rs.getString(2));
-				bean.setDescription(rs.getString(3));
-				bean.setCourseId(rs.getLong(4));
-				bean.setCourseName(rs.getString(5));
+				bean.setCourseId(rs.getLong(3));
+				bean.setCourseName(rs.getString(4));
+				bean.setDescription(rs.getString(5));
 				bean.setCreatedBy(rs.getString(6));
 				bean.setModifiedBy(rs.getString(7));
 				bean.setCreatedDatetime(rs.getTimestamp(8));
@@ -228,7 +232,7 @@ public class SubjectModel {
 	 */
 
 	public SubjectBean FindByPK(long pk) throws ApplicationException {
-		StringBuffer sql = new StringBuffer("SELECT * FROM ST_SUBJECT WHERE ID=?");
+		StringBuffer sql = new StringBuffer("SELECT * FROM ST_SUBJECT WHERE ID = ?");
 		Connection conn = null;
 		SubjectBean bean = null;
 		try {
@@ -241,9 +245,9 @@ public class SubjectModel {
 				bean = new SubjectBean();
 				bean.setId(1);
 				bean.setSubjectName(rs.getString(2));
-				bean.setDescription(rs.getString(3));
-				bean.setCourseId(rs.getLong(4));
-				bean.setCourseName(rs.getString(5));
+				bean.setCourseId(rs.getLong(3));
+				bean.setCourseName(rs.getString(4));
+				bean.setDescription(rs.getString(5));
 				bean.setCreatedBy(rs.getString(6));
 				bean.setModifiedBy(rs.getString(7));
 				bean.setCreatedDatetime(rs.getTimestamp(8));
@@ -303,25 +307,33 @@ public class SubjectModel {
 			}
 
 		}
+
 		if (pageSize > 0) {
+
 			pageNo = (pageNo - 1) * pageSize;
+
 			sql.append(" limit " + pageNo + "," + pageSize);
 		}
 
 		ArrayList list = new ArrayList();
+
 		Connection conn = null;
 		try {
 			conn = JDBCDataSource.getConnection();
+
 			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+
 			System.out.println(sql);
+
 			ResultSet rs = pstmt.executeQuery();
+
 			while (rs.next()) {
 				bean = new SubjectBean();
 				bean.setId(rs.getLong(1));
 				bean.setSubjectName(rs.getString(2));
-				bean.setDescription(rs.getString(3));
-				bean.setCourseId(rs.getLong(4));
-				bean.setCourseName(rs.getString(5));
+				bean.setCourseId(rs.getLong(3));
+				bean.setCourseName(rs.getString(4));
+				bean.setDescription(rs.getString(5));
 				bean.setCreatedBy(rs.getString(6));
 				bean.setModifiedBy(rs.getString(7));
 				bean.setCreatedDatetime(rs.getTimestamp(8));
@@ -329,11 +341,15 @@ public class SubjectModel {
 				list.add(bean);
 			}
 			rs.close();
+
 		} catch (Exception e) {
+
 			throw new ApplicationException("Exception in the search" + e.getMessage());
 		} finally {
+
 			JDBCDataSource.closeConnection(conn);
 		}
+
 		return list;
 	}
 
