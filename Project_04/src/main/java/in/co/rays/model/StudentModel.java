@@ -54,20 +54,20 @@ public class StudentModel {
 	 * @throws DatabaseException
 	 *
 	 */
-	public long add(StudentBean bean) throws ApplicationException, DuplicateRecordException {
+	public long add(StudentBean bean) throws ApplicationException, DuplicateRecordException, DatabaseException {
 		System.out.println("add started");
 
 		Connection conn = null;
 
 		CollegeModel cModel = new CollegeModel();
-		
-		CollegeBean collegeBean = cModel.findByPK(bean.getCollegeId());
+
+		CollegeBean collegeBean = cModel.findByPk(bean.getCollegeId());
 
 		bean.setCollegeName(collegeBean.getName());
 
 		StudentBean duplicateName = findByEmailId(bean.getEmail());
 		int pk = 0;
-		
+
 		if (duplicateName != null) {
 			throw new DuplicateRecordException("Email already exists");
 		}
@@ -256,7 +256,7 @@ public class StudentModel {
 	 * @throws DatabaseException
 	 */
 
-	public void Update(StudentBean bean) throws ApplicationException, DuplicateRecordException {
+	public void Update(StudentBean bean) throws ApplicationException, DuplicateRecordException, DatabaseException {
 		Connection conn = null;
 		StudentBean beanExist = findByEmailId(bean.getEmail());
 
@@ -265,7 +265,7 @@ public class StudentModel {
 
 		}
 		CollegeModel cModel = new CollegeModel();
-		CollegeBean collegeBean = cModel.findByPK(bean.getCollegeId());
+		CollegeBean collegeBean = cModel.findByPk(bean.getCollegeId());
 		bean.setCollegeName(collegeBean.getName());
 
 		try {
@@ -430,7 +430,9 @@ public class StudentModel {
 	 */
 
 	public List list(int pageNo, int pageSize) throws ApplicationException {
+
 		ArrayList list = new ArrayList();
+
 		StringBuffer sql = new StringBuffer("select * from ST_STUDENT");
 
 		if (pageSize > 0) {
@@ -440,32 +442,37 @@ public class StudentModel {
 		}
 
 		Connection conn = null;
-
+		StudentBean bean = null;
 		try {
 			conn = JDBCDataSource.getConnection();
+
 			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+
 			ResultSet rs = pstmt.executeQuery();
+
 			while (rs.next()) {
-				StudentBean bean = new StudentBean();
+
+				bean = new StudentBean();
 				bean.setId(rs.getLong(1));
-				bean.setCollegeId(rs.getLong(2));
-				bean.setCollegeName(rs.getString(3));
-				bean.setFirstName(rs.getString(4));
-				bean.setLastName(rs.getString(5));
-				bean.setDob(rs.getDate(6));
-				bean.setMobileNo(rs.getString(7));
-				bean.setEmail(rs.getString(8));
-				bean.setCreatedBy(rs.getString(9));
-				bean.setModifiedBy(rs.getString(10));
-				bean.setCreatedDatetime(rs.getTimestamp(11));
-				bean.setModifiedDatetime(rs.getTimestamp(12));
+				bean.setFirstName(rs.getString(2));
+				bean.setLastName(rs.getString(3));
+				bean.setDob(rs.getDate(4));
+				bean.setGender(rs.getString(5));
+				bean.setMobileNo(rs.getString(6));
+				bean.setEmail(rs.getString(7));
+				bean.setCollegeId(rs.getLong(8));
+				bean.setCollegeName(rs.getString(9));
+				bean.setCreatedBy(rs.getString(10));
+				bean.setModifiedBy(rs.getString(11));
+				bean.setCreatedDatetime(rs.getTimestamp(12));
+				bean.setModifiedDatetime(rs.getTimestamp(13));
 				list.add(bean);
 			}
 			rs.close();
 
 		} catch (Exception e) {
-
-			throw new ApplicationException("Exception : Exception in getting list of Student");
+			e.printStackTrace();
+			throw new ApplicationException("Exception : Exception in getting list of Student" + e.getMessage());
 		} finally {
 
 			JDBCDataSource.closeConnection(conn);

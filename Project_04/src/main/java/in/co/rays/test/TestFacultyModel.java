@@ -3,6 +3,7 @@ package in.co.rays.test;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -16,13 +17,14 @@ public class TestFacultyModel {
 
 	public static void main(String[] args) throws Exception {
 
-		// testsearch();
+		 testsearch();
 		// testAdd();
 //		 testUpdate();
 		// testfindByCollegeId();
 		// testdelete();
-		testfindByPk();
+		// testfindByPk();
 		// testfindByName();
+		//testlist();
 	}
 
 	public static void testAdd() throws Exception {
@@ -168,15 +170,61 @@ public class TestFacultyModel {
 	}
 
 	public static void testsearch() throws Exception {
+
+		List list = new ArrayList();
 		FacultyBean bean = new FacultyBean();
+
+		bean.setFirstName("Amit");
 
 		FacultyModel model = new FacultyModel();
 
-		List list = model.search(bean);
+		//list = model.search(bean);
+		list = model.search(bean, 1, 20);
 
 		Iterator it = list.iterator();
+
 		while (it.hasNext()) {
+
 			bean = (FacultyBean) it.next();
+
+			System.out.print(bean.getId());
+			System.out.print("\t" + bean.getFirstName());
+			System.out.print("\t" + bean.getLastName());
+			System.out.print("\t" + bean.getDob());
+			System.out.print("\t" + bean.getGender());
+			System.out.print("\t" + bean.getMobileNo());
+			System.out.print("\t" + bean.getEmail());
+			System.out.print("\t" + bean.getCollegeId());
+			System.out.print("\t" + bean.getCollegeName());
+			System.out.print("\t" + bean.getCourseId());
+			System.out.print("\t" + bean.getCourseName());
+			System.out.print("\t" + bean.getSubjectId());
+			System.out.print("\t" + bean.getSubjectName());
+			System.out.print("\t" + bean.getCreatedBy());
+			System.out.print("\t" + bean.getModifiedBy());
+			System.out.print("\t" + bean.getCreatedDatetime());
+			System.out.println("\t" + bean.getModifiedDatetime());
+
+		}
+	}
+
+	public static void testlist() throws Exception {
+
+		FacultyBean bean = new FacultyBean();
+
+		List list = new ArrayList();
+
+		FacultyModel model = new FacultyModel();
+
+		list = model.list(1, 10);
+		// list = model.list();
+
+		Iterator it = list.iterator();
+
+		while (it.hasNext()) {
+
+			bean = (FacultyBean) it.next();
+
 			System.out.print(bean.getId());
 			System.out.print("\t" + bean.getFirstName());
 			System.out.print("\t" + bean.getLastName());

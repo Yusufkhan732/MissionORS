@@ -56,12 +56,12 @@ public class FacultyModel {
 	 *
 	 */
 
-	public long add(FacultyBean bean) throws ApplicationException, DuplicateRecordException {
+	public long add(FacultyBean bean) throws ApplicationException, DuplicateRecordException, DatabaseException {
 		Connection conn = null;
 		int pk = 0;
 
 		CollegeModel collegeModel = new CollegeModel();
-		CollegeBean collegeBean = collegeModel.findByPK(bean.getCollegeId());
+		CollegeBean collegeBean = collegeModel.findByPk(bean.getCollegeId());
 		bean.setCollegeName(collegeBean.getName());
 
 		CourseModel courseModel = new CourseModel();
@@ -383,7 +383,9 @@ public class FacultyModel {
 	 */
 
 	public List list(int pageNo, int pageSize) throws ApplicationException {
+
 		ArrayList list = new ArrayList();
+
 		StringBuffer sql = new StringBuffer("select * from ST_FACULTY");
 
 		if (pageSize > 0) {
@@ -393,38 +395,45 @@ public class FacultyModel {
 		}
 
 		Connection conn = null;
-
+		FacultyBean bean = null;
 		try {
 			conn = JDBCDataSource.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
-				FacultyBean bean = new FacultyBean();
-				bean.setId(rs.getLong(1));
-				bean.setFirstName(rs.getString(2));
-				bean.setLastName(rs.getString(3));
-				bean.setGender(rs.getString(4));
-				bean.setEmail(rs.getString(5));
-				bean.setMobileNo(rs.getString(6));
-				bean.setCollegeId(rs.getLong(7));
-				bean.setCollegeName(rs.getString(8));
-				bean.setCourseId(rs.getLong(9));
-				bean.setCourseName(rs.getString(10));
-				bean.setDob(rs.getDate(11));
-				bean.setSubjectId(rs.getLong(12));
-				bean.setSubjectName(rs.getString(13));
-				bean.setCreatedBy(rs.getString(14));
-				bean.setModifiedBy(rs.getString(15));
-				bean.setCreatedDatetime(rs.getTimestamp(16));
-				bean.setModifiedDatetime(rs.getTimestamp(17));
-				list.add(bean);
+				bean = new FacultyBean();
+				while (rs.next()) {
+					bean = new FacultyBean();
+					bean.setId(rs.getLong("id"));
+					bean.setFirstName(rs.getString("first_name"));
+					bean.setLastName(rs.getString("last_name"));
+					bean.setDob(rs.getDate("dob"));
+					bean.setGender(rs.getString("gender"));
+					bean.setMobileNo(rs.getString("mobile_no"));
+					bean.setEmail(rs.getString("email"));
+					bean.setCollegeId(rs.getLong("college_id"));
+					bean.setCollegeName(rs.getString("college_name"));
+					bean.setCourseId(rs.getLong("course_id"));
+					bean.setCourseName(rs.getString("course_name"));
+					bean.setSubjectId(rs.getLong("subject_id"));
+					bean.setSubjectName(rs.getString("subject_name"));
+					bean.setCreatedBy(rs.getString("created_by"));
+					bean.setModifiedBy(rs.getString("modified_by"));
+					bean.setCreatedDatetime(rs.getTimestamp("created_datetime"));
+					bean.setModifiedDatetime(rs.getTimestamp("modified_datetime"));
+					list.add(bean);
+				}
+
 			}
 			rs.close();
 		} catch (Exception e) {
-			throw new ApplicationException("Exception : Exception in getting list of faculty");
+			e.printStackTrace();
+			throw new ApplicationException("Exception : Exception in getting list of faculty" + e.getMessage());
 		} finally {
+
 			JDBCDataSource.closeConnection(conn);
 		}
+
 		return list;
 	}
 
@@ -501,40 +510,50 @@ public class FacultyModel {
 		}
 
 		ArrayList list = new ArrayList();
+
 		Connection conn = null;
 
 		try {
 			conn = JDBCDataSource.getConnection();
+
 			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
-			System.out.println(sql);
+
 			ResultSet rs = pstmt.executeQuery();
+
 			while (rs.next()) {
 				bean = new FacultyBean();
 				bean.setId(rs.getLong(1));
 				bean.setFirstName(rs.getString(2));
 				bean.setLastName(rs.getString(3));
-				bean.setGender(rs.getString(4));
-				bean.setEmail(rs.getString(5));
+				bean.setDob(rs.getDate(4));
+				bean.setGender(rs.getString(5));
 				bean.setMobileNo(rs.getString(6));
-				bean.setCollegeId(rs.getLong(7));
-				bean.setCollegeName(rs.getString(8));
-				bean.setCourseId(rs.getLong(9));
-				bean.setCourseName(rs.getString(10));
-				bean.setDob(rs.getDate(11));
+				bean.setEmail(rs.getString(7));
+				bean.setCollegeId(rs.getLong(8));
+				bean.setCollegeName(rs.getString(9));
+				bean.setCourseId(rs.getLong(10));
+				bean.setCourseName(rs.getString(11));
 				bean.setSubjectId(rs.getLong(12));
 				bean.setSubjectName(rs.getString(13));
 				bean.setCreatedBy(rs.getString(14));
 				bean.setModifiedBy(rs.getString(15));
 				bean.setCreatedDatetime(rs.getTimestamp(16));
 				bean.setModifiedDatetime(rs.getTimestamp(17));
+
 				list.add(bean);
 			}
 			rs.close();
 		} catch (Exception e) {
-			// throw new ApplicationException("Exception in the search" + e.getMessage());
+
+			e.printStackTrace();
+
+			throw new ApplicationException("Exception in the search" + e.getMessage());
+
 		} finally {
+
 			JDBCDataSource.closeConnection(conn);
 		}
+
 		return list;
 	}
 
