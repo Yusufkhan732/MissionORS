@@ -14,14 +14,14 @@ import in.co.rays.model.UserModel;
 public class TestUserModel {
 
 	public static void main(String[] args) throws Exception {
-		//nextPK();
+		// nextPK();
 		// testsearch();
-		// testAdd();
+		testAdd();
 		// testUpdate();
 		// testdelete();
-		 testfindBypk();
+		// testfindBypk();
 		// testfindByLogin();
-		//testauthenticate();
+		// testauthenticate();
 	}
 
 	public static void nextPK() throws DatabaseException {
@@ -35,12 +35,10 @@ public class TestUserModel {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		UserBean bean = new UserBean();
 
-		//bean.setId(5312);
-		bean.setFirstName("Akash");
+		bean.setFirstName("yusuf");
 		bean.setLastName("rathor");
-		bean.setLogin("akash@gmail.com");
-		bean.setPassword("aksah123");
-		//bean.setConfirmpassword("akash123");
+		bean.setLogin("yusuf@gmail.com");
+		bean.setPassword("yusuf123");
 		bean.setDob(sdf.parse("2000-07-07"));
 		bean.setMobileNo("9897798789");
 		bean.setRoleId(44444);
@@ -63,7 +61,6 @@ public class TestUserModel {
 		bean.setLastName("mevada");
 		bean.setLogin("akash@example.com");
 		bean.setPassword("pass123");
-		bean.setConfirmpassword("akash123");
 		bean.setDob(sdf.parse("2000-07-07"));
 		bean.setMobileNo("9897798789");
 		bean.setRoleId(44444);
@@ -93,7 +90,6 @@ public class TestUserModel {
 			System.out.print("\t" + bean.getLastName());
 			System.out.print("\t" + bean.getLogin());
 			System.out.print("\t" + bean.getPassword());
-			//System.out.print("\t" + bean.getConfirmpassword());
 			System.out.print("\t" + bean.getDob());
 			System.out.print("\t" + bean.getRoleId());
 			System.out.print("\t" + bean.getMobileNo());
@@ -116,7 +112,6 @@ public class TestUserModel {
 			System.out.print("\t" + bean.getLastName());
 			System.out.print("\t" + bean.getLogin());
 			System.out.print("\t" + bean.getPassword());
-			System.out.print("\t" + bean.getConfirmpassword());
 			System.out.print("\t" + bean.getDob());
 			System.out.print("\t" + bean.getRoleId());
 			System.out.print("\t" + bean.getMobileNo());
@@ -141,7 +136,6 @@ public class TestUserModel {
 			System.out.print("\t" + bean.getLastName());
 			System.out.print("\t" + bean.getLogin());
 			System.out.print("\t" + bean.getPassword());
-			System.out.print("\t" + bean.getConfirmpassword());
 			System.out.print("\t" + bean.getDob());
 			System.out.print("\t" + bean.getRoleId());
 			System.out.print("\t" + bean.getMobileNo());
@@ -172,7 +166,6 @@ public class TestUserModel {
 			System.out.print("\t" + bean.getLastName());
 			System.out.print("\t" + bean.getLogin());
 			System.out.print("\t" + bean.getPassword());
-			System.out.print("\t" + bean.getConfirmpassword());
 			System.out.print("\t" + bean.getDob());
 			System.out.print("\t" + bean.getMobileNo());
 			System.out.print("\t" + bean.getGender());

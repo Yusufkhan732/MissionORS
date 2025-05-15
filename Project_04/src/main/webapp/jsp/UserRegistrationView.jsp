@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Add_User</title>
+<title>AddUser</title>
 </head>
 <body>
 	<jsp:useBean id="bean" class="in.co.rays.bean.UserBean" scope="request"></jsp:useBean>
@@ -28,7 +28,6 @@
 
 				<tr>
 					<th>First Name<span style="color: red;">*</span>:
-
 					</th>
 
 					<td><input type="text" name="firstName"
@@ -49,8 +48,9 @@
 
 					</th>
 
-					<td><input type="text" name="lastName" size="26" value=""
-						placeholder="Enter Last Name"><font color="red"><%=ServletUtility.getErrorMessage("lastName", request)%>
+					<td><input type="text" name="lastName"
+						placeholder="Enter Last Name" size="26" value=""><font
+						color="red"><%=ServletUtility.getErrorMessage("lastName", request)%>
 
 					</font></td>
 
@@ -63,8 +63,9 @@
 					<th>LoginId<span style="color: red;">*</span>:
 					</th>
 
-					<td><input type="text" name="login" size="26" value=""
-						placeholder="Ener Login Id"><font color="red"><%=ServletUtility.getErrorMessage("login", request)%>
+					<td><input type="text" name="login"
+						placeholder="Ener Login Id" size="26" value=""><font
+						color="red"><%=ServletUtility.getErrorMessage("login", request)%>
 					</font></td>
 				</tr>
 
@@ -81,11 +82,14 @@
 					<td>
 						<%
 							HashMap map = new HashMap();
+
 							map.put("Male", "Male");
 							map.put("Female", "Female");
 
-							String htmllist = HTMLUtility.getList("gender", bean.getGender(), map);
-						%> <%=htmllist%></td>
+							String htmlList = HTMLUtility.getList("gender", bean.getGender(), map);
+						%> <%=htmlList%> <font color="red"><%=ServletUtility.getErrorMessage("gender", request)%></font>
+
+					</td>
 				</tr>
 				<tr>
 					<th style="padding: 3px;"></th>
@@ -95,8 +99,10 @@
 					<th>Date of Birth<span style="color: red;">*</span>:
 
 					</th>
-					<td><input type="date" name="dob" size="27" style="width: 98%"
-						placeholder="Ener Dob" value=""></td>
+					<td><input type="date" name="dob" placeholder="Ener Dob"
+						size="26" style="width: 98%" value=""><font color="red"><%=ServletUtility.getErrorMessage("dob", request)%>
+
+					</font></td>
 
 				</tr>
 
@@ -109,8 +115,11 @@
 					<th>Mobile No<span style="padding: 3px;"></span>:
 					</th>
 
-					<td><input type="text" name="MobileNo"
-						placeholder="Enter Mobile No" size="26" maxlength="10" value=""></td>
+					<td><input type="text" name="mobileNo"
+						placeholder="Enter Mobile No" size="26" maxlength="10" value=""><font
+						color="red"><%=ServletUtility.getErrorMessage("mobileNo", request)%>
+
+					</font></td>
 
 				</tr>
 				<tr>
@@ -122,19 +131,22 @@
 					</th>
 
 					<td><input type="password" name="password"
-						placeholder="Enter Password" size="26" value=""></td>
+						placeholder="Enter Password" size="26" value=""><font
+						color="red"><%=ServletUtility.getErrorMessage("password", request)%>
+
+					</font></td>
 				</tr>
 				<tr>
 					<th style="padding: 3px;"></th>
 					<td></td>
 				</tr>
 				<tr>
-					<th>Confirm Password <span style="color: red">*</span> :
-
+					<th>Confirm Password <span style="color: red">*</span>:
 					</th>
-
-					<td><input type="password" name="confirmPassword"
-						placeholder="Re-Enter password" size="26" value=""></td>
+					<td><input type="password" name="password"
+						placeholder="Enter Password" size="26" value=""><font
+						color="red"><%=ServletUtility.getErrorMessage("password", request)%></font>
+					</td>
 				</tr>
 
 				<tr>

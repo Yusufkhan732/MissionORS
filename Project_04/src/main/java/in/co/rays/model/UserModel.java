@@ -57,20 +57,19 @@ public class UserModel {
 
 		}
 		try {
-			pk = nextPk();
 
 			conn = JDBCDataSource.getConnection();
 
+			pk = nextPk();
 			conn.setAutoCommit(false);
 
 			PreparedStatement pstmt = conn.prepareStatement("insert into st_user values(?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
-			pstmt.setLong(1, bean.getId());
+			pstmt.setLong(1, pk);
 			pstmt.setString(2, bean.getFirstName());
 			pstmt.setString(3, bean.getLastName());
 			pstmt.setString(4, bean.getLogin());
 			pstmt.setString(5, bean.getPassword());
-			// pstmt.setString(6, bean.getConfirmpassword());
 			pstmt.setDate(6, new java.sql.Date(bean.getDob().getTime()));
 			pstmt.setString(7, bean.getMobileNo());
 			pstmt.setLong(8, bean.getRoleId());
@@ -88,6 +87,7 @@ public class UserModel {
 			System.out.println("Data insertd:" + i);
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			try {
 				conn.rollback();
 
@@ -95,9 +95,6 @@ public class UserModel {
 
 				throw new ApplicationException("Exception : add rollback exception " + ex.getMessage());
 			}
-
-			throw new ApplicationException("Exception : Exception in add User " + e);
-
 		} finally {
 
 			JDBCDataSource.closeConnection(conn);
@@ -126,7 +123,6 @@ public class UserModel {
 			pstmt.setString(2, bean.getLastName());
 			pstmt.setString(3, bean.getLogin());
 			pstmt.setString(4, bean.getPassword());
-			// pstmt.setString(5, bean.getConfirmpassword());
 			pstmt.setDate(5, new java.sql.Date(bean.getDob().getTime()));
 			pstmt.setString(6, bean.getMobileNo());
 			pstmt.setLong(7, bean.getRoleId());
@@ -219,7 +215,6 @@ public class UserModel {
 				bean.setLogin(rs.getString(4));
 				bean.setPassword(rs.getString(5));
 				bean.setMobileNo(rs.getString("9187654321"));
-				// bean.setConfirmpassword(rs.getString(6));
 				bean.setDob(rs.getDate(6));
 				bean.setRoleId(rs.getLong(7));
 				bean.setGender(rs.getString(8));
@@ -258,14 +253,13 @@ public class UserModel {
 			bean.setLastName(rs.getString(3));
 			bean.setLogin(rs.getString(4));
 			bean.setPassword(rs.getString(5));
-			bean.setConfirmpassword(rs.getString(6));
-			bean.setDob(rs.getDate(7));
-			bean.setRoleId(rs.getLong(8));
-			bean.setGender(rs.getString(10));
-			bean.setCreatedBy(rs.getString(11));
-			bean.setModifiedBy(rs.getString(12));
-			bean.setCreatedDatetime(rs.getTimestamp(13));
-			bean.setModifiedDatetime(rs.getTimestamp(14));
+			bean.setDob(rs.getDate(6));
+			bean.setRoleId(rs.getLong(7));
+			bean.setGender(rs.getString(8));
+			bean.setCreatedBy(rs.getString(9));
+			bean.setModifiedBy(rs.getString(10));
+			bean.setCreatedDatetime(rs.getTimestamp(11));
+			bean.setModifiedDatetime(rs.getTimestamp(12));
 		}
 
 		JDBCDataSource.closeConnection(conn);
@@ -295,7 +289,6 @@ public class UserModel {
 				bean.setLastName(rs.getString(3));
 				bean.setLogin(rs.getString(4));
 				bean.setPassword(rs.getString(5));
-				// bean.setConfirmpassword(rs.getString(6));
 				bean.setDob(rs.getDate(6));
 				bean.setMobileNo(rs.getString(7));
 				bean.setRoleId(rs.getLong(8));
@@ -342,15 +335,14 @@ public class UserModel {
 			bean.setLastName(rs.getString(3));
 			bean.setLogin(rs.getString(4));
 			bean.setPassword(rs.getString(5));
-			bean.setConfirmpassword(rs.getString(6));
-			bean.setDob(rs.getDate(7));
-			bean.setMobileNo(rs.getString(8));
-			bean.setRoleId(rs.getLong(9));
-			bean.setGender(rs.getString(10));
-			bean.setCreatedBy(rs.getString(11));
-			bean.setModifiedBy(rs.getString(12));
-			bean.setCreatedDatetime(rs.getTimestamp(13));
-			bean.setModifiedDatetime(rs.getTimestamp(14));
+			bean.setDob(rs.getDate(6));
+			bean.setMobileNo(rs.getString(7));
+			bean.setRoleId(rs.getLong(8));
+			bean.setGender(rs.getString(9));
+			bean.setCreatedBy(rs.getString(10));
+			bean.setModifiedBy(rs.getString(11));
+			bean.setCreatedDatetime(rs.getTimestamp(12));
+			bean.setModifiedDatetime(rs.getTimestamp(13));
 			list.add(bean);
 		}
 		JDBCDataSource.closeConnection(conn);
