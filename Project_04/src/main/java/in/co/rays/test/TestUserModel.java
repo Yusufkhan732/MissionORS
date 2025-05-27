@@ -16,7 +16,7 @@ public class TestUserModel {
 	public static void main(String[] args) throws Exception {
 		// nextPK();
 		// testsearch();
-		testAdd();
+		// testAdd();
 		// testUpdate();
 		// testdelete();
 		// testfindBypk();
@@ -76,7 +76,8 @@ public class TestUserModel {
 
 	public static void testdelete() throws Exception {
 		UserModel model = new UserModel();
-		model.delete(5312);
+		UserBean bean = new UserBean();
+		model.delete(bean);
 	}
 
 	public static void testfindBypk() throws Exception {
@@ -153,7 +154,7 @@ public class TestUserModel {
 		UserBean bean = new UserBean();
 		UserModel model = new UserModel();
 
-		List list = model.search(bean);
+		List list = model.search(bean, 1, 2);
 
 		Iterator it = list.iterator();
 

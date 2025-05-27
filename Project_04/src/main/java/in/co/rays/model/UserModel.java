@@ -158,7 +158,7 @@ public class UserModel {
 		}
 	}
 
-	public void delete(long id) throws Exception {
+	public void delete(UserBean bean) throws Exception {
 		Connection conn = null;
 
 		try {
@@ -168,7 +168,7 @@ public class UserModel {
 
 			PreparedStatement pstmt = conn.prepareStatement("delete from st_user where id = ?");
 
-			pstmt.setLong(1, id);
+			pstmt.setLong(1, bean.getId());
 
 			int i = pstmt.executeUpdate();
 
@@ -308,44 +308,62 @@ public class UserModel {
 		return bean;
 	}
 
-	public List search(UserBean bean) throws Exception {
-
-		Connection conn = JDBCDataSource.getConnection();
+	public List search(UserBean bean, int pageNo, int pageSize) throws ApplicationException {
 
 		StringBuffer sql = new StringBuffer("select * from st_user where 1=1");
 
 		if (bean != null) {
 			if (bean.getFirstName() != null && bean.getFirstName().length() > 0) {
-				sql.append("and first_name'" + bean.getFirstName() + "%'");
-
-				System.out.println("sql==>" + sql.toString());
+				sql.append(" and first_name like '" + bean.getFirstName() + "%'");
+			}
+			if (bean.getDob() != null && bean.getDob().getTime() > 0) {
+				sql.append(" and dob like '" + new java.sql.Date(bean.getDob().getTime()) + "%'");
+			}
+			if (bean.getRoleId() > 0) {
+				sql.append(" and role_id = " + bean.getRoleId());
 			}
 		}
-		PreparedStatement pstmt = conn.prepareStatement(sql.toString());
 
-		ResultSet rs = pstmt.executeQuery();
+		if (pageSize > 0) {
+			pageNo = (pageNo - 1) * pageSize;
+			sql.append(" limit " + pageNo + ", " + pageSize);
+		}
 
+		System.out.println("sql ==>> " + sql.toString());
+
+		Connection conn = null;
 		List list = new ArrayList();
 
-		while (rs.next()) {
+		try {
+			conn = JDBCDataSource.getConnection();
 
-			bean = new UserBean();
-			bean.setId(rs.getLong(1));
-			bean.setFirstName(rs.getString(2));
-			bean.setLastName(rs.getString(3));
-			bean.setLogin(rs.getString(4));
-			bean.setPassword(rs.getString(5));
-			bean.setDob(rs.getDate(6));
-			bean.setMobileNo(rs.getString(7));
-			bean.setRoleId(rs.getLong(8));
-			bean.setGender(rs.getString(9));
-			bean.setCreatedBy(rs.getString(10));
-			bean.setModifiedBy(rs.getString(11));
-			bean.setCreatedDatetime(rs.getTimestamp(12));
-			bean.setModifiedDatetime(rs.getTimestamp(13));
-			list.add(bean);
+			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				bean = new UserBean();
+				bean.setId(rs.getLong(1));
+				bean.setFirstName(rs.getString(2));
+				bean.setLastName(rs.getString(3));
+				bean.setLogin(rs.getString(4));
+				bean.setPassword(rs.getString(5));
+				bean.setDob(rs.getDate(6));
+				bean.setMobileNo(rs.getString(7));
+				bean.setRoleId(rs.getLong(8));
+				bean.setGender(rs.getString(9));
+				bean.setCreatedBy(rs.getString(10));
+				bean.setModifiedBy(rs.getString(11));
+				bean.setCreatedDatetime(rs.getTimestamp(12));
+				bean.setModifiedDatetime(rs.getTimestamp(13));
+				list.add(bean);
+			}
+		} catch (Exception e) {
+			throw new ApplicationException("Exception : Exception in search user " + e);
+		} finally {
+			JDBCDataSource.closeConnection(conn);
 		}
-		JDBCDataSource.closeConnection(conn);
 		return list;
 	}
+
 }

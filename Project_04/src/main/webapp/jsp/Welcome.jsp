@@ -12,11 +12,11 @@
 <body>
 	<form action="<%=ORSView.WELCOME_CTL%>">
 		<%@ include file="Header.jsp"%>
+		<h2 style="background-color: red;"></h2>
 		<br>
 		<h1 align="Center">
 			<font size="10px" color="red">Welcome to ORS </font>
 		</h1>
-
 	</form>
 
 	<%@ include file="Footer.jsp"%>

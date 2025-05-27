@@ -90,7 +90,7 @@ public class UserRegistrationCtl extends BaseCtl {
 		// System.out.println(request.getParameter("firstName"));
 		// System.out.println(DataUtility.getString(request.getParameter("firstName")));
 		bean.setFirstName(DataUtility.getString(request.getParameter("firstName")));
-		bean.setLastName(DataUtility.getString(request.getParameter("lasttName")));
+		bean.setLastName(DataUtility.getString(request.getParameter("lastName")));
 		bean.setLogin(DataUtility.getString(request.getParameter("login")));
 		bean.setPassword(DataUtility.getString(request.getParameter("password")));
 		bean.setConfirmpassword(DataUtility.getString(request.getParameter("confirmPassword")));

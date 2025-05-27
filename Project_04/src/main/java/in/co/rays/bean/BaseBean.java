@@ -2,7 +2,7 @@ package in.co.rays.bean;
 
 import java.sql.Timestamp;
 
-public abstract class BaseBean implements DropdownListBean {
+public abstract class BaseBean implements DropdownListBean, Comparable<BaseBean> {
 
 	protected long id;
 	protected String createdBy;
@@ -48,5 +48,11 @@ public abstract class BaseBean implements DropdownListBean {
 
 	public void setModifiedDatetime(Timestamp modifiedDatetime) {
 		this.modifiedDatetime = modifiedDatetime;
+	}
+
+	@Override
+	public int compareTo(BaseBean o) {
+		return 0;
+
 	}
 }

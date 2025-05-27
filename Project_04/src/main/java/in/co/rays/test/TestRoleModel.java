@@ -18,7 +18,7 @@ public class TestRoleModel {
 		// testAdd();
 		// testUpdate();
 		// testdelete();
-		//testfindBypk();
+		// testfindBypk();
 		// testfindByName();
 		// testsearch();
 	}
@@ -123,7 +123,7 @@ public class TestRoleModel {
 
 		bean.setModifiedBy("root");
 
-		List list = model.search(bean);
+		List list = model.search(bean, 1, 1);
 
 		Iterator it = list.iterator();
 
