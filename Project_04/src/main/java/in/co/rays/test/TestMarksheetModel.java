@@ -2,11 +2,14 @@ package in.co.rays.test;
 
 import java.security.spec.MGF1ParameterSpec;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import in.co.rays.bean.CollegeBean;
 import in.co.rays.bean.MarksheetBean;
+import in.co.rays.model.CollegeModel;
 import in.co.rays.model.MarksheetModel;
 
 public class TestMarksheetModel {
@@ -17,9 +20,10 @@ public class TestMarksheetModel {
 		// testUpdate();
 		// testDelete();
 		// testfindBypk();
-		//testfindStudenID();
-		 //testRollno();
-		 testsearch();
+		// testfindStudenID();
+		// testRollno();
+		// testsearch();
+		testlist();
 	}
 
 	public static void testmarksheet() {
@@ -71,7 +75,8 @@ public class TestMarksheetModel {
 	public static void testDelete() throws Exception {
 
 		MarksheetModel model = new MarksheetModel();
-		model.delete(4);
+		MarksheetBean bean = new MarksheetBean();
+		model.delete(bean);
 
 	}
 
@@ -138,9 +143,45 @@ public class TestMarksheetModel {
 	public static void testsearch() throws Exception {
 
 		MarksheetBean bean = new MarksheetBean();
+
+		// be.setCity("Indore");
+
+		bean.setName("Nikhil Dubey");
+
 		MarksheetModel model = new MarksheetModel();
 
 		List list = model.search(bean);
+
+		Iterator it = list.iterator();
+
+		while (it.hasNext()) {
+			bean = (MarksheetBean) it.next();
+			System.out.print(bean.getId());
+			System.out.print("\t" + bean.getRollNo());
+			System.out.print("\t" + bean.getStudentId());
+			System.out.print("\t" + bean.getName());
+			System.out.print("\t" + bean.getPhysics());
+			System.out.print("\t" + bean.getChemistry());
+			System.out.print("\t" + bean.getMaths());
+			System.out.print("\t" + bean.getCreatedBy());
+			System.out.print("\t" + bean.getModifiedBy());
+			System.out.print("\t" + bean.getCreatedDatetime());
+			System.out.println("\t" + bean.getModifiedDatetime());
+
+		}
+	}
+
+	public static void testlist() throws Exception {
+
+		MarksheetBean bean = new MarksheetBean();
+
+		List list = new ArrayList();
+
+		MarksheetModel model = new MarksheetModel();
+
+		// list = model.list(1, 2);
+
+		list = model.list(); // ye pura data lane ke liye
 
 		Iterator it = list.iterator();
 

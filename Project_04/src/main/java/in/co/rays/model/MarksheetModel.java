@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import in.co.rays.Exception.ApplicationException;
+import in.co.rays.Exception.DatabaseException;
 import in.co.rays.bean.CollegeBean;
 import in.co.rays.bean.MarksheetBean;
 import in.co.rays.util.JDBCDataSource;
@@ -35,9 +37,10 @@ public class MarksheetModel {
 		return pk + 1;
 	}
 
-	public void add(MarksheetBean bean) throws Exception {
+	public long add(MarksheetBean bean) throws Exception {
 
 		Connection conn = null;
+
 		try {
 			int pk = nextPk();
 			conn = JDBCDataSource.getConnection();
@@ -63,6 +66,8 @@ public class MarksheetModel {
 		} catch (Exception e) {
 			JDBCDataSource.trnRollback(conn);
 		}
+		return 0;
+
 	}
 
 	public void update(MarksheetBean bean) throws Exception {
@@ -95,7 +100,7 @@ public class MarksheetModel {
 		}
 	}
 
-	public void delete(long id) throws Exception {
+	public void delete(MarksheetBean bean) throws Exception {
 		Connection conn = null;
 		try {
 			conn = JDBCDataSource.getConnection();
@@ -103,7 +108,7 @@ public class MarksheetModel {
 			conn.setAutoCommit(false);
 
 			PreparedStatement pstmt = conn.prepareStatement("delete from st_marksheet where id = ?");
-			pstmt.setLong(1, id);
+			pstmt.setLong(1, bean.getId());
 
 			int i = pstmt.executeUpdate();
 
@@ -210,43 +215,151 @@ public class MarksheetModel {
 
 	}
 
-	public List search(MarksheetBean bean) throws Exception {
+	/**
+	 * Search College
+	 *
+	 * @param bean : Search Parameters
+	 * @throws DatabaseException
+	 */
 
-		Connection conn = JDBCDataSource.getConnection();
+	public List search(MarksheetBean bean) throws ApplicationException {
+		return search(bean, 0, 0);
+	}
 
-		StringBuffer sql = new StringBuffer("select * from st_marksheet where 1=1");
+	/**
+	 * Search College with pagination
+	 *
+	 * @return list : List of College
+	 * @param bean     : Search Parameters
+	 * @param pageNo   : Current Page No.
+	 * @param pageSize : Size of Page
+	 * @throws ApplicationException
+	 *
+	 * @throws DatabaseException
+	 */
+	public List search(MarksheetBean bean, int pageNo, int pageSize) throws ApplicationException {
 
+		StringBuffer sql = new StringBuffer("SELECT * FROM ST_marksheet WHERE 1=1");
 		if (bean != null) {
-			if (bean.getName() != null && bean.getName().length() > 0) {
-
-				sql.append("and name like '" + bean.getName() + "%");
+			if (bean.getId() > 0) {
+				sql.append(" and id = " + bean.getId());
 			}
+
 		}
-		System.out.println("sql==>" + sql.toString());
 
-		PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+		if (pageSize > 0) {
+			pageNo = (pageNo - 1) * pageSize;
+			sql.append(" limit " + pageNo + "," + pageSize);
 
-		ResultSet rs = pstmt.executeQuery();
-		List list = new ArrayList();
-
-		while (rs.next()) {
-			bean = new MarksheetBean();
-			bean.setId(rs.getLong(1));
-			bean.setRollNo(rs.getString(2));
-			bean.setStudentId(rs.getLong(3));
-			bean.setName(rs.getString(4));
-			bean.setPhysics(rs.getInt(5));
-			bean.setChemistry(rs.getInt(6));
-			bean.setMaths(rs.getInt(7));
-			bean.setCreatedBy(rs.getString(8));
-			bean.setModifiedBy(rs.getString(9));
-			bean.setCreatedDatetime(rs.getTimestamp(10));
-			bean.setModifiedDatetime(rs.getTimestamp(11));
-			list.add(bean);
 		}
-		JDBCDataSource.closeConnection(conn);
+
+		ArrayList list = new ArrayList();
+
+		Connection conn = null;
+		try {
+			conn = JDBCDataSource.getConnection();
+
+			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				bean = new MarksheetBean();
+
+				bean.setId(rs.getLong(1));
+				bean.setRollNo(rs.getString(2));
+				bean.setStudentId(rs.getLong(3));
+				bean.setName(rs.getString(4));
+				bean.setPhysics(rs.getInt(5));
+				bean.setChemistry(rs.getInt(6));
+				bean.setMaths(rs.getInt(7));
+				bean.setCreatedBy(rs.getString(8));
+				bean.setModifiedBy(rs.getString(9));
+				bean.setCreatedDatetime(rs.getTimestamp(10));
+				bean.setModifiedDatetime(rs.getTimestamp(11));
+				list.add(bean);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			throw new ApplicationException("Exception: search college list");
+
+		} finally {
+
+			JDBCDataSource.closeConnection(conn);
+		}
 		return list;
+	}
 
+	/**
+	 * Get List of College
+	 *
+	 * @return list : List of College
+	 * @throws DatabaseException
+	 */
+
+	public List list() throws ApplicationException {
+		return list(0, 0);
+	}
+
+	/**
+	 * Get List of College with pagination
+	 *
+	 * @return list : List of College
+	 * @param pageNo   : Current Page No.
+	 * @param pageSize : Size of Page
+	 * @throws ApplicationException
+	 * @throws DatabaseException
+	 */
+	public List list(int pageNo, int pageSize) throws ApplicationException {
+
+		ArrayList list = new ArrayList();
+
+		StringBuffer sql = new StringBuffer("SELECT * FROM st_marksheet");
+
+		if (pageSize > 0) {
+			pageNo = (pageNo - 1) * pageSize;
+			sql.append(" limit " + pageNo + " ," + pageSize);
+
+		}
+		Connection conn = null;
+		MarksheetBean bean = null;
+		try {
+			conn = JDBCDataSource.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				bean = new MarksheetBean();
+				bean.setId(rs.getLong(1));
+				bean.setRollNo(rs.getString(2));
+				bean.setStudentId(rs.getLong(3));
+				bean.setName(rs.getString(4));
+				bean.setPhysics(rs.getInt(5));
+				bean.setChemistry(rs.getInt(6));
+				bean.setMaths(rs.getInt(7));
+				bean.setCreatedBy(rs.getString(8));
+				bean.setModifiedBy(rs.getString(9));
+				bean.setCreatedDatetime(rs.getTimestamp(10));
+				bean.setModifiedDatetime(rs.getTimestamp(11));
+				list.add(bean);
+			}
+
+			rs.close();
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+			throw new ApplicationException("Exception :Exception in getting list of user");
+		} finally {
+
+			JDBCDataSource.closeConnection(conn);
+		}
+
+		return list;
 	}
 
 }
