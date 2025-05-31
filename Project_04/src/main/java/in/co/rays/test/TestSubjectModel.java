@@ -2,13 +2,16 @@ package in.co.rays.test;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import in.co.rays.Exception.DatabaseException;
+import in.co.rays.bean.CollegeBean;
 import in.co.rays.bean.StudentBean;
 import in.co.rays.bean.SubjectBean;
+import in.co.rays.model.CollegeModel;
 import in.co.rays.model.StudentModel;
 import in.co.rays.model.SubjectModel;
 
@@ -19,8 +22,9 @@ public class TestSubjectModel {
 		// testAdd();
 		// testupdate();
 		// testByPk();
-		 testByName();
-		//testsearch();
+		// testByName();
+		// testsearch();
+		testlist();
 
 	}
 
@@ -139,4 +143,37 @@ public class TestSubjectModel {
 		}
 	}
 
+	public static void testlist() throws Exception {
+		SubjectBean bean = new SubjectBean();
+
+		List list = new ArrayList();
+
+		SubjectModel model = new SubjectModel();
+
+		// list = model.list(1, 2);
+
+		list = model.list(); // ye pura data lane ke liye
+//
+//		if (list.size() == 0) {
+//			System.out.println("Test list fail");
+//		} else {
+//			System.out.println("test List pass");
+//		}
+
+		Iterator it = list.iterator();
+
+		while (it.hasNext()) {
+
+			bean = (SubjectBean) it.next();
+			System.out.print(bean.getId());
+			System.out.print("\t" + bean.getSubjectName());
+			System.out.print("\t" + bean.getCourseId());
+			System.out.print("\t" + bean.getCourseName());
+			System.out.print("\t" + bean.getDescription());
+			System.out.print("\t" + bean.getCreatedBy());
+			System.out.print("\t" + bean.getModifiedBy());
+			System.out.print("\t" + bean.getCreatedDatetime());
+			System.out.println("\t" + bean.getModifiedDatetime());
+		}
+	}
 }

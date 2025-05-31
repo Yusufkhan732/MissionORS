@@ -81,6 +81,7 @@ public class SubjectModel {
 			pstmt.close();
 			conn.close();
 		} catch (Exception e) {
+			e.printStackTrace();
 			try {
 				conn.rollback();
 			} catch (Exception ex) {
@@ -112,6 +113,7 @@ public class SubjectModel {
 			conn.commit();
 			pstmt.close();
 		} catch (Exception e) {
+			e.printStackTrace();
 			try {
 				conn.rollback();
 			} catch (Exception ex) {
@@ -186,7 +188,7 @@ public class SubjectModel {
 	 * @throws DatabaseException
 	 */
 	public SubjectBean findByName(String name) throws ApplicationException {
-		
+
 		StringBuffer sql = new StringBuffer("SELECT * FROM ST_SUBJECT WHERE NAME=?");
 		SubjectBean bean = null;
 		Connection conn = null;
@@ -196,7 +198,7 @@ public class SubjectModel {
 			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setString(1, name);
 
-			 System.out.println(name + "jhdsfuhf");
+			System.out.println(name + "jhdsfuhf");
 
 			ResultSet rs = pstmt.executeQuery();
 
@@ -243,7 +245,7 @@ public class SubjectModel {
 
 			while (rs.next()) {
 				bean = new SubjectBean();
-				bean.setId(1);
+				bean.setId(rs.getLong(1));
 				bean.setSubjectName(rs.getString(2));
 				bean.setCourseId(rs.getLong(3));
 				bean.setCourseName(rs.getString(4));
@@ -390,33 +392,32 @@ public class SubjectModel {
 			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
 
 			ResultSet rs = pstmt.executeQuery();
+			
 			SubjectBean bean;
 			while (rs.next()) {
-				bean = new SubjectBean();
 
+				bean = new SubjectBean();
 				bean.setId(rs.getLong(1));
 				bean.setSubjectName(rs.getString(2));
-				bean.setDescription(rs.getString(3));
-				bean.setCourseId(rs.getLong(4));
-				bean.setCourseName(rs.getString(5));
+				bean.setCourseId(rs.getLong(3));
+				bean.setCourseName(rs.getString(4));
+				bean.setDescription(rs.getString(5));
 				bean.setCreatedBy(rs.getString(6));
 				bean.setModifiedBy(rs.getString(7));
 				bean.setCreatedDatetime(rs.getTimestamp(8));
 				bean.setModifiedDatetime(rs.getTimestamp(9));
-
 				list.add(bean);
 			}
 			rs.close();
-			pstmt.close();
-			conn.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new ApplicationException("Exception : Exception in getting list " + e.getMessage());
 
+		} catch (Exception e) {
+
+			throw new ApplicationException("Exception in the search" + e.getMessage());
 		} finally {
+
 			JDBCDataSource.closeConnection(conn);
 		}
+
 		return list;
 	}
-
 }
